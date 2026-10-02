@@ -7,6 +7,7 @@ import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { submitContactForm } from "./actions";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "hello@mywebsite.com" },
@@ -26,16 +27,21 @@ export default function Contact() {
     setSubmitted,
   } = useUser();
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    console.log({
-      name,
-      email,
-      message,
-    });
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("message", message);
 
-    setSubmitted(true);
+    const result = await submitContactForm(formData);
+
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      alert(result.error);
+    }
   }
 
   return (
@@ -61,7 +67,7 @@ export default function Contact() {
             {contactInfo.map(({ icon: Icon, label, value }) => (
               <Card
                 key={label}
-                className="border border-white/10 bg-foreground/[0.03]"
+                className="border border-border bg-card"
               >
                 <CardContent className="flex items-center gap-4">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -82,7 +88,7 @@ export default function Contact() {
             ))}
           </div>
 
-          <Card className="border border-white/10 bg-foreground/[0.03] md:col-span-3">
+          <Card className="border border-border bg-card md:col-span-3">
             <CardContent>
               {submitted ? (
                 <div className="flex h-full min-h-64 flex-col items-center justify-center text-center">

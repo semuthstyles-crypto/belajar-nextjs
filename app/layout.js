@@ -30,8 +30,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`dark ${fontSans.variable}`}>
-      <body className="flex min-h-screen flex-col bg-blue-900 text-foreground antialiased">
+    <html lang="en" className={fontSans.variable}>
+      <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
         <UserProvider>
           <FavoriteProvider>
             <Navbar />

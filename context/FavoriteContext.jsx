@@ -1,25 +1,47 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+
+import { createContext, useContext, useEffect, useState } from "react";
 
 const FavoriteContext = createContext(undefined);
 
 export function FavoriteProvider({ children }) {
   const [favorites, setFavorites] = useState([]);
 
-  function isFavorite(userId) {
-    return favorites.some((fav) => fav.id === userId);
+  useEffect(() => {
+    fetch("/api/favorites")
+      .then((res) => res.json())
+      .then(setFavorites);
+  }, []);
+
+  async function addFavorite(user) {
+    const res = await fetch("/api/favorites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+
+    if (res.ok) {
+      const saved = await res.json();
+      setFavorites((prev) => [...prev, saved]);
+    }
   }
 
-  function toggleFavorite(user) {
-    setFavorites((prev) =>
-      prev.some((fav) => fav.id === user.id)
-        ? prev.filter((fav) => fav.id !== user.id)
-        : [...prev, user]
-    );
+  async function removeFavorite(userId) {
+    const res = await fetch(`/api/favorites/${userId}`, { method: "DELETE" });
+
+    if (res.ok) {
+      setFavorites((prev) => prev.filter((f) => f.id !== userId));
+    }
   }
+
+  function isFavorite(userId) {
+    return favorites.some((f) => f.id === userId);
+  }
+
+  const value = { favorites, addFavorite, removeFavorite, isFavorite };
 
   return (
-    <FavoriteContext.Provider value={{ favorites, isFavorite, toggleFavorite }}>
+    <FavoriteContext.Provider value={value}>
       {children}
     </FavoriteContext.Provider>
   );
@@ -27,10 +49,8 @@ export function FavoriteProvider({ children }) {
 
 export function useFavorite() {
   const context = useContext(FavoriteContext);
-
   if (context === undefined) {
     throw new Error("useFavorite harus dipakai di dalam <FavoriteProvider>");
   }
-
   return context;
 }

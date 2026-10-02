@@ -20,7 +20,7 @@ export default function Profile() {
       <div className="bg-grid bg-radial-fade absolute inset-0 -z-10" />
 
       <div className="mx-auto max-w-3xl px-6 py-20">
-        <Card className="border border-white/10 bg-foreground/[0.03]">
+        <Card className="border border-border bg-card">
           <CardContent className="flex flex-col items-center text-center">
             <div className="flex size-20 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/10 text-2xl font-bold">
               MW
@@ -38,7 +38,7 @@ export default function Profile() {
               individuals and businesses.
             </p>
 
-            <div className="mt-8 grid w-full grid-cols-3 gap-4 border-t border-white/10 pt-6">
+            <div className="mt-8 grid w-full grid-cols-3 gap-4 border-t border-border pt-6">
               {stats.map((stat) => (
                 <div key={stat.label}>
                   <p className="text-xl font-bold">{stat.value}</p>
@@ -55,7 +55,7 @@ export default function Profile() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex size-9 items-center justify-center rounded-full border border-white/10 text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
+                  className="flex size-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
                 >
                   <Icon className="size-4" />
                 </a>

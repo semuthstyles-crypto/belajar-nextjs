@@ -45,7 +45,7 @@ export default function AboutPage() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-white/10 bg-foreground/[0.03] p-6"
+              className="rounded-2xl border border-border bg-card p-6"
             >
               <p className="text-3xl font-bold tracking-tight">
                 {stat.value}

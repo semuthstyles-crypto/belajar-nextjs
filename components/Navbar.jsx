@@ -22,7 +22,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-4 z-50 mx-auto w-full max-w-4xl px-4">
-      <nav className="flex items-center justify-between gap-4 rounded-full border border-white/10 bg-background/70 px-4 py-2">
+      <nav className="flex items-center justify-between gap-4 rounded-full border border-border bg-card px-4 py-2 shadow-md">
         <Link
           href="/"
           className="shrink-0 text-sm font-bold tracking-tight"
@@ -30,7 +30,7 @@ export default function Navbar() {
           MyWebsite
         </Link>
 
-        <div className="hidden items-center gap-1 text-sm text-muted-foreground sm:flex">
+        <div className="hidden items-center gap-1 text-sm text-card-foreground sm:flex">
           {links.map((link) => {
             const isActive =
               link.href === "/"
@@ -42,9 +42,9 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "rounded-full px-3 py-1.5 transition-colors hover:text-foreground",
-                  isActive && "bg-foreground/10 text-foreground"
-                )}
+  "rounded-full px-3 py-1.5 transition-colors hover:bg-primary/15",
+  isActive && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+)}
               >
                 {link.label}
               </Link>
@@ -52,14 +52,14 @@ export default function Navbar() {
           })}
 
           <Link
-            href="/favorites"
-            className={cn(
-              "rounded-full px-3 py-1.5 transition-colors hover:text-foreground",
-              pathname === "/favorites" && "bg-foreground/10 text-foreground"
-            )}
-          >
-            Favorite ({favorites.length})
-          </Link>
+  href="/favorites"
+  className={cn(
+    "rounded-full px-3 py-1.5 transition-colors hover:bg-primary/15",
+    pathname === "/favorites" && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+  )}
+>
+  Favorite ({favorites.length})
+</Link>
         </div>
 
         {submitted && <span>Hi, {name} 👋</span>}
