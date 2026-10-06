@@ -31,7 +31,7 @@ export default async function MessagesPage() {
             <div key={msg.id} className="flex items-start justify-between gap-4 rounded-lg border p-4">
               <div>
                 <p className="font-medium">{msg.name} — {msg.email}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{msg.message}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{msg.messages}</p>
               </div>
               <form action={deleteMessageAction}>
                 <input type="hidden" name="id" value={msg.id} />
