@@ -1,4 +1,6 @@
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { createClient } from "@/lib/supabase/server";
 
 import localFont from "next/font/local";
 
@@ -28,21 +30,26 @@ export const metadata = {
     "We help individuals and businesses build modern, simple, and useful digital experiences.",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en" className={fontSans.variable}>
       <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
-        <UserProvider>
-          <FavoriteProvider>
-            <Navbar />
+        <AuthProvider user={user ? { id: user.id, email: user.email } : null}>
+          <UserProvider>
+            <FavoriteProvider>
+              <Navbar />
 
-            <main className="flex-1">
-              {children}
-            </main>
+              <main className="flex-1">{children}</main>
 
-            <Footer />
-          </FavoriteProvider>
-        </UserProvider>
+              <Footer />
+            </FavoriteProvider>
+          </UserProvider>
+        </AuthProvider>
       </body>
     </html>
   );
