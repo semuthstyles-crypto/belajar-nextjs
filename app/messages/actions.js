@@ -1,9 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 
 export async function deleteMessageAction(formData) {
+  const supabase = await createClient();
   const id = formData.get("id");
 
   const { error } = await supabase.from("messages").delete().eq("id", id);

@@ -15,7 +15,7 @@ export async function submitContactForm(formData) {
 
   const { error } = await supabase
     .from("messages")
-    .insert({ name, email, message });
+    .insert({ name, email, messages: message });
 
   if (error) {
     return { success: false, error: error.message };
